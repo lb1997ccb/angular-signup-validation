@@ -1,30 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {SnackbarService} from "../../services/snackbar.service";
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.scss']
+  styleUrls: ['./user-registration.component.scss'],
 })
 export class UserRegistrationComponent implements OnInit {
   registrationForm!: FormGroup;
 
-  constructor(private fb: FormBuilder,  private snackbarService: SnackbarService ) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService,
+  ) {}
 
   ngOnInit(): void {
-    this.registrationForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
+    this.registrationForm = this.fb.group(
+      {
+        username: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
+      },
+      { validator: this.passwordMatchValidator },
+    );
   }
 
-  get username() { return this.registrationForm.get('username')!; }
-  get email() { return this.registrationForm.get('email')!; }
-  get password() { return this.registrationForm.get('password')!; }
-  get confirmPassword() { return this.registrationForm.get('confirmPassword')!; }
+  get username() {
+    return this.registrationForm.get('username')!;
+  }
+  get email() {
+    return this.registrationForm.get('email')!;
+  }
+  get password() {
+    return this.registrationForm.get('password')!;
+  }
+  get confirmPassword() {
+    return this.registrationForm.get('confirmPassword')!;
+  }
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')!.value;
