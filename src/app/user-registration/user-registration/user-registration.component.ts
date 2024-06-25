@@ -10,11 +10,19 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class UserRegistrationComponent implements OnInit {
   registrationForm!: FormGroup;
 
+  /**
+   * Constructor for UserRegistrationComponent.
+   * @param fb FormBuilder for creating reactive forms.
+   * @param snackbarService Service for displaying snackbar notifications.
+   */
   constructor(
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
   ) {}
 
+  /**
+   * Initializes the registration form with validators and password confirmation validation.
+   */
   ngOnInit(): void {
     this.registrationForm = this.fb.group(
       {
@@ -23,24 +31,47 @@ export class UserRegistrationComponent implements OnInit {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
       },
-      { validator: this.passwordMatchValidator },
+      { validator: this.passwordConfirmationValidator },
     );
   }
 
+  /**
+   * Getter for username form control.
+   * @returns Username form control.
+   */
   get username() {
     return this.registrationForm.get('username')!;
   }
+
+  /**
+   * Getter for email form control.
+   * @returns Email form control.
+   */
   get email() {
     return this.registrationForm.get('email')!;
   }
+
+  /**
+   * Getter for password form control.
+   * @returns Password form control.
+   */
   get password() {
     return this.registrationForm.get('password')!;
   }
+
+  /**
+   * Getter for confirmPassword form control.
+   * @returns ConfirmPassword form control.
+   */
   get confirmPassword() {
     return this.registrationForm.get('confirmPassword')!;
   }
 
-  passwordMatchValidator(form: FormGroup) {
+  /**
+   * Custom validator function to check if password and confirmPassword match.
+   * @param form FormGroup instance containing password and confirmPassword controls.
+   */
+  passwordConfirmationValidator(form: FormGroup) {
     const password = form.get('password')!.value;
     const confirmPassword = form.get('confirmPassword')!.value;
 
@@ -57,6 +88,9 @@ export class UserRegistrationComponent implements OnInit {
     }
   }
 
+  /**
+   * Handles form submission and displays success message if form is valid.
+   */
   onSubmit(): void {
     this.registrationForm.markAllAsTouched();
 
